@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Interactivo - Recuperación de Fondos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            display: inline-block;
+            margin: 10px 5px;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Recuperación de Fondos Blockchain</h1>
+        <div id="step1">
+            <p>¿Recuerdas cuánto dinero perdiste? Por favor, introduce la cantidad (en USD):</p>
+            <input type="number" id="lostAmount" placeholder="Introduce el monto" />
+            <button class="button" onclick="checkAmount()">Comprobar</button>
+        </div>
+
+        <div id="step2" class="hidden">
+            <p>Felicidades, monto verificado. La diferencia del 8% se debe a la fluctuación del mercado.</p>
+            <p>Paso 1: Por favor, asegúrate de tener una cuenta verificada en Binance.</p>
+            <p>¿Tienes una cuenta en Binance?</p>
+            <button class="button" onclick="hasBinanceAccount(true)">Sí</button>
+            <button class="button" onclick="hasBinanceAccount(false)">No</button>
+        </div>
+
+        <div id="step3" class="hidden">
+            <p>¿Qué tipo de dispositivo tienes?</p>
+            <button class="button" onclick="deviceType('iPhone')">iPhone</button>
+            <button class="button" onclick="deviceType('Android')">Android</button>
+        </div>
+
+        <div id="step4" class="hidden">
+            <p>Ya que tienes una cuenta en Binance, por favor comunícate con un agente por llamada al número de WhatsApp:</p>
+            <p><strong>+123224</strong></p>
+        </div>
+    </div>
+
+    <script>
+        function checkAmount() {
+            const lostAmount = parseFloat(document.getElementById('lostAmount').value);
+            if (isNaN(lostAmount) || lostAmount <= 0) {
+                alert('Por favor, introduce un monto válido.');
+                return;
+            }
+
+            const adjustedAmount = lostAmount * 0.92; // Restamos el 8%
+            alert(`El monto ajustado después del 8% de fluctuación es $${adjustedAmount.toFixed(2)}.`);
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+        }
+
+        function hasBinanceAccount(hasAccount) {
+            document.getElementById('step2').classList.add('hidden');
+            if (hasAccount) {
+                document.getElementById('step4').classList.remove('hidden');
+            } else {
+                document.getElementById('step3').classList.remove('hidden');
+            }
+        }
+
+        function deviceType(type) {
+            if (type === 'iPhone') {
+                window.location.href = 'https://apps.apple.com/sg/app/binance-buy-bitcoin-crypto/id1436799971';
+            } else if (type === 'Android') {
+                window.location.href = 'https://play.google.com/store/apps/details?id=com.binance.dev&hl=es&pli=1';
+            }
+        }
+    </script>
+</body>
+</html>
