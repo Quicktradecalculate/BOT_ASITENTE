@@ -1,118 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enviar Correos</title>
-    <!-- Usar el SDK actualizado de EmailJS v3 -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3.1.0/dist/email.min.js"></script>
+    <title>Bot Interactivo - Recuperación de Fondos</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
+
         .container {
-            max-width: 500px;
-            background: white;
-            margin: 0 auto;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        input, textarea, button {
             width: 100%;
+            max-width: 600px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            width: 80%;
+            padding: 12px;
             margin: 10px 0;
-            padding: 10px;
+            font-size: 16px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
+            text-align: center;
         }
-        button {
-            background-color: #007bff;
+
+        .button {
+            display: inline-block;
+            margin: 12px 5px;
+            background-color: #007BFF;
             color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        #status {
-            font-weight: bold;
+
+        .button:hover {
+            background-color: #0056b3;
         }
+
         .hidden {
             display: none;
+        }
+
+        /* Media Query para dispositivos pequeños */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            input[type="number"] {
+                width: 90%;
+            }
+
+            .button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Enviar Correos Masivamente</h2>
-        <form id="emailForm">
-            <label for="recipients">Correos (separados por comas):</label>
-            <input type="text" id="recipients" placeholder="correo1@gmail.com, correo2@gmail.com" required>
+        <h1>Recuperación de Fondos Blockchain</h1>
+        <div id="step1">
+            <p>¿Recuerdas cuánto dinero perdiste? Por favor, introduce la cantidad (en USD):</p>
+            <input type="number" id="lostAmount" placeholder="Introduce el monto" />
+            <button class="button" onclick="checkAmount()">Comprobar</button>
+        </div>
 
-            <label for="subject">Asunto:</label>
-            <input type="text" id="subject" placeholder="Asunto del correo" required>
+        <div id="step2" class="hidden">
+            <p>Felicidades, monto verificado. La diferencia del 8% se debe a la fluctuación del mercado.</p>
+            <p>Paso 1: Por favor, asegúrate de tener una cuenta verificada en Blockchain Wallet.</p>
+            <p>¿Tienes una cuenta en Blockchain Wallet?</p>
+            <button class="button" onclick="hasBinanceAccount(true)">Sí</button>
+            <button class="button" onclick="hasBinanceAccount(false)">No</button>
+        </div>
 
-            <label for="message">Mensaje:</label>
-            <textarea id="message" rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+        <div id="step3" class="hidden">
+            <p>¿Qué tipo de dispositivo tienes?</p>
+            <button class="button" onclick="deviceType('iPhone')">iPhone</button>
+            <button class="button" onclick="deviceType('Android')">Android</button>
+        </div>
 
-            <button type="submit">Enviar Correos</button>
-        </form>
-        
-        <!-- Mensaje de estado, fluctúa entre "Enviando..." y "Éxito/Error" -->
-        <div id="status" class="hidden">Enviando correos...</div>
-
-        <!-- Botón de continuar (solo visible cuando el proceso termine) -->
-        <button id="continueButton" class="hidden" onclick="location.reload();">Continuar</button>
+        <div id="step4" class="hidden">
+            <p>Ya que tienes una cuenta en Blockchain Wallet, por favor comunícate con un agente por llamada al número de WhatsApp:</p>
+            <p><strong>+123224</strong></p>
+        </div>
     </div>
 
     <script>
-        // Inicializa EmailJS con tu Public Key
-        emailjs.init("O78MKMMVfvat57KF5"); // Tu Public Key
+        function checkAmount() {
+            const lostAmount = parseFloat(document.getElementById('lostAmount').value);
+            if (isNaN(lostAmount) || lostAmount <= 0) {
+                alert('Por favor, introduce un monto válido.');
+                return;
+            }
 
-        // Maneja el formulario
-        document.getElementById("emailForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Evita que la página se recargue
+            const adjustedAmount = lostAmount * 0.92; // Restamos el 8%
+            alert(`El monto ajustado después del 8% de fluctuación es $${adjustedAmount.toFixed(2)}.`);
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+        }
 
-            // Obtén los valores del formulario
-            const recipients = document.getElementById("recipients").value.split(",");
-            const subject = document.getElementById("subject").value;
-            const message = document.getElementById("message").value;
+        function hasBinanceAccount(hasAccount) {
+            document.getElementById('step2').classList.add('hidden');
+            if (hasAccount) {
+                document.getElementById('step4').classList.remove('hidden');
+            } else {
+                document.getElementById('step3').classList.remove('hidden');
+            }
+        }
 
-            // Muestra un mensaje de "Enviando..."
-            const statusElement = document.getElementById("status");
-            statusElement.textContent = "Enviando correos...";
-            statusElement.style.color = "blue";
-            statusElement.classList.remove("hidden");
-
-            // Ocultar el botón de "Continuar" hasta que se complete el proceso
-            const continueButton = document.getElementById("continueButton");
-            continueButton.classList.add("hidden");
-
-            // Enviar correos uno por uno
-            recipients.forEach((recipient) => {
-                const templateParams = {
-                    to_email: recipient.trim(),
-                    subject: subject,
-                    message: message,
-                };
-
-                emailjs.send("service_rqjxerh", "template_9lpy87m", templateParams)
-                    .then(() => {
-                        // Cuando se envíen todos los correos, mostrar mensaje de éxito
-                        statusElement.textContent = "¡Correos enviados con éxito!";
-                        statusElement.style.color = "green";
-
-                        // Mostrar el botón de "Continuar"
-                        continueButton.classList.remove("hidden");
-                    })
-                    .catch((error) => {
-                        // Si ocurre un error, mostrar mensaje de error
-                        statusElement.textContent = `Error al enviar correos: ${error.text}`;
-                        statusElement.style.color = "red";
-
-                        // Mostrar el botón de "Continuar" en caso de error
-                        continueButton.classList.remove("hidden");
-                    });
-            });
-        });
+        function deviceType(type) {
+            if (type === 'iPhone') {
+                window.location.href = 'https://apps.apple.com/us/app/coinbase-wallet-nfts-crypto/id1278383455';
+            } else if (type === 'Android') {
+                window.location.href = 'https://play.google.com/store/apps/details?id=org.toshi&hl=en';
+            }
+        }
     </script>
 </body>
 </html>
