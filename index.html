@@ -3,63 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bot Interactivo - Recuperación de Fondos</title>
+    <title>Recuperación de Fondos Blockchain</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: #fff;
             overflow: hidden;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             text-align: center;
-            overflow-y: auto; /* Asegura que el contenido se desplace si el teclado está visible */
+            color: #333;
+            overflow-y: auto;
         }
 
         h1 {
-            font-size: 24px;
-            color: #333;
+            font-size: 28px;
+            color: #0056b3;
             margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+            line-height: 1.5;
+            color: #555;
         }
 
         input[type="number"] {
-            width: 80%;
-            padding: 12px;
-            margin: 10px 0;
+            width: calc(100% - 40px);
+            max-width: 100%;
+            padding: 14px;
+            margin: 15px 0;
             font-size: 16px;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 10px;
             text-align: center;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            border-color: #1a73e8;
+            outline: none;
         }
 
         .button {
             display: inline-block;
             margin: 12px 5px;
-            background-color: #007BFF;
+            background-color: #1a73e8;
             color: white;
             padding: 12px 25px;
             text-decoration: none;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .button:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
         }
 
         .hidden {
@@ -69,7 +103,7 @@
         /* Media Query para dispositivos pequeños */
         @media (max-width: 600px) {
             h1 {
-                font-size: 20px;
+                font-size: 22px;
             }
 
             .container {
@@ -77,7 +111,8 @@
             }
 
             input[type="number"] {
-                width: 90%;
+                width: calc(100% - 30px);
+                font-size: 14px;
             }
 
             .button {
@@ -88,6 +123,13 @@
     </style>
 </head>
 <body>
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="https://cdn.pixabay.com/video/2019/10/09/27669-365224683_large.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de videos.
+        </video>
+    </div>
+
     <div class="container">
         <h1>Recuperación de Fondos Blockchain</h1>
         <div id="step1">
@@ -102,17 +144,21 @@
             <p>¿Tienes una cuenta en Blockchain Wallet?</p>
             <button class="button" onclick="hasBinanceAccount(true)">Sí</button>
             <button class="button" onclick="hasBinanceAccount(false)">No</button>
+            <button class="button" onclick="goBackToStep1()">Regresar</button>
         </div>
 
         <div id="step3" class="hidden">
             <p>¿Qué tipo de dispositivo tienes?</p>
             <button class="button" onclick="deviceType('iPhone')">iPhone</button>
             <button class="button" onclick="deviceType('Android')">Android</button>
+            <button class="button" onclick="goBackToStep2()">Regresar</button>
         </div>
 
         <div id="step4" class="hidden">
-            <p>Ya que tienes una cuenta en Blockchain Wallet, por favor comunícate con un agente por llamada al número de WhatsApp:</p>
-            <p><strong>+123224</strong></p>
+            <p>Ya que tienes una cuenta en Blockchain Wallet, por favor comunícate con un agente por mensaje al número de WhatsApp:</p>
+            <p><strong>+34 602597283</strong></p>
+            <button class="button" onclick="contactAdvisor()">Contactar Asesor</button>
+            <button class="button" onclick="goBackToStep2()">Regresar</button>
         </div>
     </div>
 
@@ -143,6 +189,21 @@
             } else if (type === 'Android') {
                 window.location.href = 'https://play.google.com/store/apps/details?id=org.toshi&hl=en';
             }
+        }
+
+        function goBackToStep1() {
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step1').classList.remove('hidden');
+        }
+
+        function goBackToStep2() {
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+        }
+
+        function contactAdvisor() {
+            window.location.href = 'https://wa.me/34602597283';
         }
     </script>
 </body>
